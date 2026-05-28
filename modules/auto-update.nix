@@ -72,7 +72,7 @@ in {
       description = "Pull ${cfg.flakeRepo}, update inputs, rebuild";
       after = [ "network-online.target" ];
       wants = [ "network-online.target" ];
-      path = with pkgs; [ git nix nixos-rebuild coreutils gnused ];
+      path = with pkgs; [ git nix nixos-rebuild openssh coreutils gnused ];
       serviceConfig = {
         Type = "oneshot";
         User = "root";
