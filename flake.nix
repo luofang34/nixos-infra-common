@@ -10,6 +10,7 @@
       time          = import ./modules/time.nix;
       proxmoxGuest  = import ./modules/proxmox-guest.nix;
       network       = import ./modules/network.nix;
+      ipoib         = import ./modules/ipoib.nix;
       users         = import ./modules/users.nix;
       autoUpdate    = import ./modules/auto-update.nix;
       monitoring    = import ./modules/monitoring.nix;
