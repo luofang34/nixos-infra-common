@@ -58,6 +58,12 @@ in
   config = lib.mkIf cfg.enable {
     networking.useNetworkd = true;
 
+    # The IPoIB ULP that creates the ibN netdev. mlx4_ib/ib_core load on
+    # device appearance, but ib_ipoib does not auto-load — without it there
+    # is no ib* interface for the udev/networkd rules below to match, and
+    # the fabric link silently never comes up.
+    boot.kernelModules = [ "ib_ipoib" ];
+
     # Write the IPoIB mode before networkd configures the link. udev fires
     # on device appearance (link still down), which is the only time the
     # mode is changeable.
