@@ -13,6 +13,23 @@
     experimental-features = [ "nix-command" "flakes" ];
     trusted-users = lib.mkDefault [ "root" ];
     auto-optimise-store = true;
+
+    # Fleet binary cache on the nixos-builder VM. extra-* appends to
+    # the built-in defaults; the LAN cache advertises a higher priority
+    # than cache.nixos.org so it is tried first, and an unreachable
+    # builder degrades to a warning with the public cache serving the
+    # request. A host overriding either list at normal priority
+    # replaces the fleet default — include these values if the intent
+    # is to add a cache rather than swap it.
+    extra-substituters = lib.mkDefault [ "http://192.168.89.200:5000" ];
+    extra-trusted-public-keys = lib.mkDefault [
+      "nixos-builder.v99n62.ai-1:LRkbBX+segsiMfNFw45EOk4nGHIDjk3eVlsGbt8Gx44="
+    ];
+
+    # Nix's default connect-timeout is unlimited; a blackholed
+    # substituter would stall operations for minutes instead of
+    # skipping.
+    connect-timeout = lib.mkDefault 5;
   };
 
   nix.gc = {
