@@ -13,6 +13,14 @@
     experimental-features = [ "nix-command" "flakes" ];
     trusted-users = lib.mkDefault [ "root" ];
     auto-optimise-store = true;
+
+    # Fleet binary cache on the nixos-builder VM. extra-* keeps
+    # cache.nixos.org first; if the builder is down nix just falls back
+    # after the connect timeout, so this is safe as a fleet default.
+    extra-substituters = lib.mkDefault [ "http://192.168.89.200:5000" ];
+    extra-trusted-public-keys = lib.mkDefault [
+      "nixos-builder.v99n62.ai-1:LRkbBX+segsiMfNFw45EOk4nGHIDjk3eVlsGbt8Gx44="
+    ];
   };
 
   nix.gc = {
